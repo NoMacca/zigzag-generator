@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Zigzag Generator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  .result {
+    margin-top: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+
+<h1>Student Zigzag Generator</h1>
+
+<div>
+  <label for="students">Enter student names</label>
+  <input type="text" id="students" placeholder="e.g. John James Jill">
+  <button onclick="generateCombinations()">Generate Combinations</button>
+</div>
+
+<div class="result" id="result"></div>
+
+<script>
+  function moveLastElementToFront(arr) {
+      if (arr.length < 2) {
+          return arr; 
+      } else {
+          const lastElement = arr.pop(); 
+          arr.unshift(lastElement); 
+          return arr;
+      }
+  }
+  
+  function generateCombinations() {
+      var studentsInput = document.getElementById("students").value;
+      var students = studentsInput.split(" ").map(function(student) {
+          return student.trim();
+      });
+      
+      var combinations = [];
+
+      for (var i = 0; i < 10; i++) {
+          combinations.push([...students]);
+          students = moveLastElementToFront(students);
+      }
+  
+      var resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "<h2>Generated Combinations:</h2>";
+      var table = document.createElement("table");
+      var thead = document.createElement("thead");
+      var tbody = document.createElement("tbody");
+      var tr = document.createElement("tr");
+
+      // Table headers
+      var headers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+      headers.forEach(function(headerText) {
+          var th = document.createElement("th");
+          th.textContent = headerText;
+          tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+      table.appendChild(thead);
+      
+      // Table body
+      for (var i = 0; i < combinations[0].length; i++){
+          console.log("Next row")
+          var tr = document.createElement("tr");
+          for (var j = 0; j < 10; j++){
+              var td = document.createElement("td");
+              td.textContent = combinations[j][i];
+              tr.appendChild(td);
+          } 
+          tbody.appendChild(tr);
+      }
+
+      table.appendChild(tbody);
+      resultDiv.appendChild(table);
+  }
+  </script>
+
+</body>
+</html>
